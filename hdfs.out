@@ -1,0 +1,23 @@
+$ hdfs dfs -put *.txt /test
+$ hdfs dfs -ls /test
+Found 4 items
+-rw-r--r--   1 hadoop supergroup    1473040 2022-11-10 22:16 /test/voyna-i-mir-tom-1.txt
+-rw-r--r--   1 hadoop supergroup    1540650 2022-11-10 22:16 /test/voyna-i-mir-tom-2.txt
+-rw-r--r--   1 hadoop supergroup    1686412 2022-11-10 22:16 /test/voyna-i-mir-tom-3.txt
+-rw-r--r--   1 hadoop supergroup    1395922 2022-11-10 22:16 /test/voyna-i-mir-tom-4.txt
+$ hadoop fs -text /test/*.txt | hadoop fs -put - /test/merge.txt
+$ hdfs dfs -ls /test
+Found 5 items
+-rw-r--r--   1 hadoop supergroup    6096024 2022-11-10 22:17 /test/merge.txt
+-rw-r--r--   1 hadoop supergroup    1473040 2022-11-10 22:16 /test/voyna-i-mir-tom-1.txt
+-rw-r--r--   1 hadoop supergroup    1540650 2022-11-10 22:16 /test/voyna-i-mir-tom-2.txt
+-rw-r--r--   1 hadoop supergroup    1686412 2022-11-10 22:16 /test/voyna-i-mir-tom-3.txt
+-rw-r--r--   1 hadoop supergroup    1395922 2022-11-10 22:16 /test/voyna-i-mir-tom-4.txt
+$ hdfs dfs -du -s -h /test/merge.txt
+5.8 M  5.8 M  /test/merge.txt
+$ hadoop fs -setrep 2 /test/merge.txt
+Replication 2 set: /test/merge.txt
+$ hdfs dfs -du -s -h /test/merge.txt
+5.8 M  11.6 M  /test/merge.txt
+$ hadoop fs -cat /test/merge.txt | wc -l
+10272
